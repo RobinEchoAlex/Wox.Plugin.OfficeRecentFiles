@@ -5,9 +5,7 @@ from random import random
 from wox import Wox, WoxAPI
 from src import Registry
 
-
 # TODO Lowercase
-
 class Main():
     MRUFiles = {}
 
@@ -36,7 +34,7 @@ class Main():
 
     def openFile(self, filePath):
         os.startfile(filePath)
-        # TODO should be more secure
+        # TODO how about a file is not longer existed
 
 # Necessary code
 if __name__ == "__main__":

@@ -1,0 +1,12 @@
+{
+  "ID":"b582bcb03de549539119483a08194190",
+  "ActionKeyword":"off",
+  "Name":"office Pinned File",
+  "Description":"show office pinned file in query",
+  "Author":"RobinEchoAlex",
+  "Version":"1.0.0",
+  "Language":"python",
+  "Website":"",
+  "IcoPath": "res\\Icon.png",
+  "ExecuteFileName":"src\\main.py"
+}

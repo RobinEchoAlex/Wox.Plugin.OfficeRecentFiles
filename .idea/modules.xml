@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../Wox.plugin.OfficeRecentFile/.idea/wox.plugin.OfficeRecentFile.iml" filepath="$PROJECT_DIR$/../Wox.plugin.officeMRUFile/.idea/wox.plugin.officeMRUFile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/wox.plugin.officePinnedFile.iml" filepath="$PROJECT_DIR$/.idea/wox.plugin.officePinnedFile.iml" />
     </modules>
   </component>
 </project>

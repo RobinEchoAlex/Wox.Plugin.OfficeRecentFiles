@@ -15,6 +15,13 @@ class Main():
     def query(self, query):
         if not self.MRUFiles:
             self.buildReg()
+
+        if query == "":
+            return {
+                 "Title": "Office Recent File Looker",
+                 "IcoPath": "res//Icon.png"
+             }
+
         returnResults = []
         results = process.extract(query, self.MRUFiles.keys(), limit=10)
         for result in results:

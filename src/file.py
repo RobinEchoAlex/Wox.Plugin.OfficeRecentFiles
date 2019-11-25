@@ -21,6 +21,7 @@ extension_icon = {
     "xlam": "res//excel.ico",
     "xll": "res//excel.ico",
     "xlw": "res//excel.ico",
+    #TODO csv
 
     "ppt": "res//ppt.ico",
     "pot": "res//ppt.ico",
@@ -39,5 +40,5 @@ def iconmatcher(fileName):
     if extension_icon.__contains__(extension):
         icon = extension_icon[extension]
     else:
-        icon = "res\\Icon.png"
+        icon = "res//Icon.png"
     return icon

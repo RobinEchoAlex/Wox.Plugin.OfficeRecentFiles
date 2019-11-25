@@ -8,8 +8,8 @@ def fetchRegistry():
 
         reg = ConnectRegistry(None, HKEY_CURRENT_USER)
         wordKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Word\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
-        #excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
-        #pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
+        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
+        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
 
         i = 0
         while True:

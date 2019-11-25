@@ -1,9 +1,8 @@
 from fuzzywuzzy import process
 import os
-from random import random
 
 from wox import Wox, WoxAPI
-from src import Registry
+from src import Registry,file
 
 # TODO Lowercase
 class Main():
@@ -23,7 +22,7 @@ class Main():
              returnResults.append({
                  "Title": result[0],
                  "SubTitle": formattedPath,
-                 "IcoPath": "Res/word.ico",
+                 "IcoPath": file.iconmatcher(result[0]),
                   "JsonRPCAction": {
                      "method": "openFile",
                       "parameters": [formattedPath],

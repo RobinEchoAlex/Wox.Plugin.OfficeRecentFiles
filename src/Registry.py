@@ -12,8 +12,8 @@ def fetchRegistry():
         reg = ConnectRegistry(None, HKEY_CURRENT_USER)
 
         wordKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Word\User MRU\\"+ Setting.user + "\File MRU")
-        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRUU\\"+ Setting.user + "\File MRU")
-        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRUU\\"+ Setting.user + "\File MRU")
+        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRU\\"+ Setting.user + "\File MRU")
+        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRU\\"+ Setting.user + "\File MRU")
 
         Keys = [wordKey,excelKey,pptKey]
 

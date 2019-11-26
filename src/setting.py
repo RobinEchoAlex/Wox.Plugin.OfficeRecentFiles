@@ -37,9 +37,14 @@ class Setting:
     def loadSetting(self):
         config = configparser.ConfigParser()
         config .read('config.ini')
-        __user = config['user']
-        __enable = config['enable']
-        __pinned = config.getboolean('pinned')
+
+        app = config['APP']
+        __user = app['user']
+        __pinned = app.getboolean('pinned')
+
+        Setting.__enable['word']=config.getboolean('ENABLE','word')
+        Setting.__enable['excel'] = config.getboolean('ENABLE','excel')
+        Setting.__enable['ppt'] = config.getboolean('ENABLE','ppt')
         return
 
     def writeSetting(self):

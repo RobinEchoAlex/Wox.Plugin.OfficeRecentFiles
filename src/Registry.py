@@ -32,16 +32,20 @@ def fetchRegistry():
                     break
         return MRUFiles
 
-def createUserList(reg):
-    userKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\Word\User MRU")
-    print(type(userKey))
-    num = QueryInfoKey(userKey)[0]
-    for i in range(num):
-        Setting.userList.add(EnumKey,userKey)
+def createUserSet(reg):
+    w_uKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\Word\User MRU")
+    e_uKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\Excel\User MRU")
+    p_uKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\PowerPoint\User MRU")
+    uKeys = [w_uKey,e_uKey,p_uKey]
+
+    for uKey in uKeys:
+        num = QueryInfoKey(uKey)[0]
+        for i in range(num):
+            Setting.userSet.add(EnumKey(uKey, i))
 
 def extractInfo(value):
     posOfAsterisk = value[1].find("*")
-    filepath  = value[1][posOfAsterisk+1:]
+    filepath = value[1][posOfAsterisk+1:]
     posOfSlash = filepath.rfind('\\')
     fileName = filepath[posOfSlash+1:]
     return fileName, filepath

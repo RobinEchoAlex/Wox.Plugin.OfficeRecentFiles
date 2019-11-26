@@ -2,14 +2,18 @@
 
 from winreg import *
 
+from src.setting import Setting
+
+
 def fetchRegistry():
         MRUFiles = {}
         wordKey = None
 
         reg = ConnectRegistry(None, HKEY_CURRENT_USER)
-        wordKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Word\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
-        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
-        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRU\ADAL_F594B3B642FB17C41BF1285F133AD15D55BA76E8CB5C5CECD079FFED29C99780\File MRU")
+
+        wordKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Word\User MRU\\"+ Setting.user + "\File MRU")
+        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRUU\\"+ Setting.user + "\File MRU")
+        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRUU\\"+ Setting.user + "\File MRU")
 
         Keys = [wordKey,excelKey,pptKey]
 
@@ -27,6 +31,13 @@ def fetchRegistry():
                 except OSError:  # EOF
                     break
         return MRUFiles
+
+def createUserList(reg):
+    userKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\Word\User MRU")
+    print(type(userKey))
+    num = QueryInfoKey(userKey)[0]
+    for i in range(num):
+        Setting.userList.add(EnumKey,userKey)
 
 def extractInfo(value):
     posOfAsterisk = value[1].find("*")

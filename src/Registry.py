@@ -22,7 +22,6 @@ def fetchRegistry():
                     if True: #TODO
                         fileInfo = extractInfo(value)
                         MRUFiles[fileInfo[0]] = fileInfo[1]
-                        print(fileInfo[0])
                     global_file_count = global_file_count+1
                     count = count+1
                 except OSError:  # EOF

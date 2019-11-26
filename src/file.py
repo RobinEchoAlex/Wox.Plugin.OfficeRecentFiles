@@ -21,7 +21,7 @@ extension_icon = {
     "xlam": "res//excel.ico",
     "xll": "res//excel.ico",
     "xlw": "res//excel.ico",
-    #TODO csv
+    "csv": "res//excel.ico",
 
     "ppt": "res//ppt.ico",
     "pot": "res//ppt.ico",

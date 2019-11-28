@@ -3,6 +3,7 @@ import os
 
 from wox import Wox, WoxAPI
 from src import Registry, file
+from src.setting import Setting
 
 
 # TODO Lowercase
@@ -14,8 +15,13 @@ class Main(Wox):
         return
 
     def query(self, query):
+
+
         self.buildReg()
         returnResults = []
+
+        if query=="":
+            return self.setting()
 
         results = process.extract(query, self.MRUFiles.keys(), limit=4)
         for result in results:
@@ -35,6 +41,28 @@ class Main(Wox):
     def openFile(self, filePath):
         os.startfile(filePath)
         # TODO how about a file is not longer existed
+
+    def setting(self):
+        returnResults = []
+        returnResults.append({
+            "Title": "Office Recent File",
+            "SubTitle": "",
+            "IcoPath": "res//Icon.png"
+        })
+        returnResults.append({
+            "Title": "User Setting",
+            "SubTitle": "configure the user whose most recent files to show",
+            "IcoPath": "res//Icon.png",
+            "JsonRPCAction": {
+            "method": "userSetting",
+            "parameters": [],
+            "dontHideAfterAction": False
+        }
+        })
+
+    def userSetting(self):
+        setting = Setting.getInstance()
+        users = setting.getUser()
 
 
 # Necessary code

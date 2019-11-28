@@ -11,11 +11,17 @@ def fetchRegistry():
 
         reg = ConnectRegistry(None, HKEY_CURRENT_USER)
 
-        wordKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Word\User MRU\\"+ Setting.user + "\File MRU")
-        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRU\\"+ Setting.user + "\File MRU")
-        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRU\\"+ Setting.user + "\File MRU")
+        createUserSet(reg)
+
+        setting = Setting()
+
+        #TODO bug when the user has no folder throws an error
+        wordKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Word\User MRU\\"+ setting.getUser() + "\File MRU")
+        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRU\\"+ setting.getUser() + "\File MRU")
+        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRU\\"+ setting.getUser() + "\File MRU")
 
         Keys = [wordKey,excelKey,pptKey]
+
 
         global_file_count = 0
         for key in Keys:

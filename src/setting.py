@@ -1,11 +1,25 @@
 import configparser
 
+#TODO static
 class Setting:
+    __instance = None
+
     userSet = set()
     __user = ""
     __enable = {"word":True,"excel":True,"ppt":True}
     __pinned = False
 
+    def __init__(self):
+        if Setting.__instance != None:
+            raise Exception("User getInstance() instead")
+        else:
+            Setting.__instance = self
+
+    @staticmethod
+    def getInstance():
+        if Setting.__instance == None:
+            Setting()
+        return Setting.__instance
 
     def setUser(self,user):
         if user not in Setting.userSet:
@@ -14,6 +28,9 @@ class Setting:
         Setting.writeSetting(self)
 
     def getUser(self):
+        if (Setting.__user ==""):
+            Setting.__user = Setting.userSet.pop()
+            Setting.userSet.add(Setting.__user)
         return Setting.__user
 
     def setEnable(self,app):

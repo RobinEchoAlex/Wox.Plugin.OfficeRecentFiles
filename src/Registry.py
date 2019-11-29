@@ -31,7 +31,6 @@ def fetchRegistry():
             num = QueryInfoKey(key)[1] #the number of values that this key has
             for i in range(num):
                 value = EnumValue(key,i)
-                logging.debug(setting.getPinned())
                 if setting.getPinned() and isPinned(value) or not setting.getPinned():
                     fileInfo = extractInfo(value)
                     MRUFiles[fileInfo[0]] = fileInfo[1]

@@ -24,12 +24,10 @@ class Setting:
 
     def setPinned(self):
         self.__pinned = not self.__pinned
-        logging.debug("Pinned in set "+str(self.__pinned))
         self.writeSetting()
         return
 
     def getPinned(self):
-        logging.debug("Pinned in get "+str(self.__pinned))
         return self.__pinned
 
     def loadSetting(self):
@@ -38,8 +36,6 @@ class Setting:
 
         app = config['APP']
         self.__pinned = app.getboolean('pinned')
-
-        logging.debug("Pinned in read "+str(self.__pinned))
         return
 
     def writeSetting(self):
@@ -47,8 +43,6 @@ class Setting:
         config['APP'] = {}
         app = config['APP']
         app['pinned'] = str(self.__pinned)
-
-        logging.debug("Pinned in write "+str(self.__pinned))
 
         with open(r'config.ini', 'w') as configFile:
             config.write(configFile)

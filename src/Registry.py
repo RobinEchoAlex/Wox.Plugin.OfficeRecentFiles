@@ -29,15 +29,12 @@ def fetchRegistry():
             key = OpenKeyEx(reg,
                             "Software\\Microsoft\\Office\\16.0\\" + appName + "\\User MRU\\" + user + "\\File MRU")
             num = QueryInfoKey(key)[1] #the number of values that this key has
-            #logging.debug(num)
             for i in range(num):
                 value = EnumValue(key,i)
-                #logging.debug(value)
                 logging.debug(setting.getPinned())
                 if setting.getPinned() and isPinned(value) or not setting.getPinned():
                     fileInfo = extractInfo(value)
                     MRUFiles[fileInfo[0]] = fileInfo[1]
-    #logging.debug(MRUFiles)
     return MRUFiles
 
 

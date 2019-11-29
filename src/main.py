@@ -7,7 +7,6 @@ from wox import Wox, WoxAPI
 from src import Registry, officeFile
 from src.setting import Setting
 
-
 # TODO Lowercase
 class Main(Wox):
     MRUFiles = {}

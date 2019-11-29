@@ -62,7 +62,6 @@ class Setting:
         config.read('config.ini')
 
         app = config['APP']
-        # __user = app['user']
         self.__pinned = app.getboolean('pinned')
 
         logging.debug("Pinned in read "+str(self.__pinned))

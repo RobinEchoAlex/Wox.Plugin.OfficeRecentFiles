@@ -6,6 +6,7 @@ import logging
 
 MRUFiles = {}
 
+
 def fetchRegistry():
     # if not bool(MRUFiles): not working normally
     #     return MRUFiles
@@ -28,9 +29,9 @@ def fetchRegistry():
         for user in userSet:
             key = OpenKeyEx(reg,
                             "Software\\Microsoft\\Office\\16.0\\" + appName + "\\User MRU\\" + user + "\\File MRU")
-            num = QueryInfoKey(key)[1] #the number of values that this key has
+            num = QueryInfoKey(key)[1]  # the number of values that this key has
             for i in range(num):
-                value = EnumValue(key,i)
+                value = EnumValue(key, i)
                 if setting.getPinned() and isPinned(value) or not setting.getPinned():
                     fileInfo = extractInfo(value)
                     MRUFiles[fileInfo[0]] = fileInfo[1]
@@ -60,6 +61,7 @@ def extractInfo(value):
     posOfSlash = filepath.rfind('\\')
     fileName = filepath[posOfSlash + 1:]
     return fileName, filepath
+
 
 def isPinned(value):
     if "F00000001" in value[1]:

@@ -1,12 +1,13 @@
 import configparser
 import logging
 
+
 # TODO static
 class Setting:
     __instance = None
     logging.basicConfig(filename='example.log', level=logging.DEBUG)
 
-    userDict = {"w_user":set(), "e_user":set(), "p_user":set()}
+    userDict = {"w_user": set(), "e_user": set(), "p_user": set()}
     __pinned = False
 
     def __init__(self):

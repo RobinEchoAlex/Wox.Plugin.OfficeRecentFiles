@@ -7,6 +7,7 @@ from wox import Wox, WoxAPI
 from src import Registry, officeFile
 from src.setting import Setting
 
+
 # TODO Lowercase
 class Main(Wox):
     MRUFiles = {}
@@ -20,7 +21,7 @@ class Main(Wox):
         self.buildReg()
         returnResults = []
 
-        if query=="":
+        if query == "":
             return self.showSetting()
 
         results = process.extract(query, self.MRUFiles.keys(), limit=4)
@@ -63,8 +64,9 @@ class Main(Wox):
 
     def pinned(self):
         Setting.getInstance().setPinned()
-        WoxAPI.show_msg("Searching only pinned file is set to "+str(Setting.getInstance().getPinned()),sub_title="")
+        WoxAPI.show_msg("Searching only pinned file is set to " + str(Setting.getInstance().getPinned()), sub_title="")
         return
+
 
 # Necessary code
 if __name__ == "__main__":

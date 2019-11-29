@@ -1,27 +1,28 @@
+import logging
+
 from fuzzywuzzy import process
 import os
 
 from wox import Wox, WoxAPI
-from src import Registry, file
+from src import Registry, officeFile
 from src.setting import Setting
 
 
 # TODO Lowercase
 class Main(Wox):
     MRUFiles = {}
+    logging.basicConfig(filename='example.log', level=logging.DEBUG)
 
     def buildReg(self):
         self.MRUFiles = Registry.fetchRegistry()
         return
 
     def query(self, query):
-
-
         self.buildReg()
         returnResults = []
 
         if query=="":
-            return self.setting()
+            return self.showSetting()
 
         results = process.extract(query, self.MRUFiles.keys(), limit=4)
         for result in results:
@@ -29,7 +30,7 @@ class Main(Wox):
             returnResults.append({
                 "Title": result[0],
                 "SubTitle": formattedPath,
-                "IcoPath": file.iconmatcher(result[0]),
+                "IcoPath": officeFile.iconmatcher(result[0]),
                 "JsonRPCAction": {
                     "method": "openFile",
                     "parameters": [formattedPath],
@@ -42,7 +43,7 @@ class Main(Wox):
         os.startfile(filePath)
         # TODO how about a file is not longer existed
 
-    def setting(self):
+    def showSetting(self):
         returnResults = []
         returnResults.append({
             "Title": "Office Recent File",
@@ -50,20 +51,19 @@ class Main(Wox):
             "IcoPath": "res//Icon.png"
         })
         returnResults.append({
-            "Title": "User Setting",
-            "SubTitle": "configure the user whose most recent files to show",
+            "Title": "Setting",
+            "SubTitle": "Open setting file",
             "IcoPath": "res//Icon.png",
             "JsonRPCAction": {
-            "method": "userSetting",
-            "parameters": [],
-            "dontHideAfterAction": False
-        }
+                "method": "openSetting",
+                "parameters": [],
+                "dontHideAfterAction": False
+            }
         })
+        return returnResults
 
-    def userSetting(self):
-        setting = Setting.getInstance()
-        users = setting.getUser()
-
+    def openSetting(self):
+        os.startfile(r"config.ini")
 
 # Necessary code
 if __name__ == "__main__":

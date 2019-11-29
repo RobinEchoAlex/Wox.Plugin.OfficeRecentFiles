@@ -1,12 +1,14 @@
 import configparser
+import logging
 
-#TODO static
+# TODO static
 class Setting:
     __instance = None
+    logging.basicConfig(filename='example.log', level=logging.DEBUG)
 
-    userSet = set()
-    __user = ""
-    __enable = {"word":True,"excel":True,"ppt":True}
+    userDict = {"w_user":set(), "e_user":set(), "p_user":set()}
+     #__user = ""
+    #__enable = {"word": True, "excel": True, "ppt": True}
     __pinned = False
 
     def __init__(self):
@@ -19,64 +21,68 @@ class Setting:
     def getInstance():
         if Setting.__instance == None:
             Setting()
+        Setting.__instance.loadSetting()
         return Setting.__instance
 
-    def setUser(self,user):
-        if user not in Setting.userSet:
-            raise Exception("Requested user is not found")
-        Setting.__user = user
-        Setting.writeSetting(self)
+    # def setUser(self, user):
+    #     if user not in Setting.userSet:
+    #         raise Exception("Requested user is not found")
+    #     Setting.__user = user
+    #     Setting.writeSetting(self)
+    #
+    # def getUser(self):
+    #     if (Setting.__user == ""):
+    #         Setting.__user = Setting.userSet.pop()
+    #         Setting.userSet.add(Setting.__user)
+    #     return Setting.__user
+    #
+    # def setEnable(self, app):
+    #     if app not in Setting.__enable.keys():
+    #         raise Exception("Requested app is not existed")
+    #     Setting.__enable[app] = not Setting.__enable[app]
+    #     Setting.writeSetting(self)
+    #
+    # def getEnable(self, app):
+    #     if app not in Setting.__enable.keys():
+    #         raise Exception("Requested app is not existed")
+    #     return Setting.__enable[app]
 
-    def getUser(self):
-        if (Setting.__user ==""):
-            Setting.__user = Setting.userSet.pop()
-            Setting.userSet.add(Setting.__user)
-        return Setting.__user
-
-    def setEnable(self,app):
-        if app not in Setting.__enable.keys():
-            raise Exception("Requested app is not existed")
-        Setting.__enable[app] = not Setting.__enable[app]
-        Setting.writeSetting(self)
-
-    def getEnable(self,app):
-        if app not in Setting.__enable.keys():
-            raise Exception("Requested app is not existed")
-        return Setting.__enable[app]
-
-    def setPinned(self,app):
+    def setPinned(self, app):
         Setting.__pinned = not Setting.__pinned
         return
 
     def getPinned(self):
-        return Setting.__pinned
+        logging.debug("Pinned in get "+str(self.__pinned))
+        return self.__pinned
 
     def loadSetting(self):
         config = configparser.ConfigParser()
-        config .read('config.ini')
+        config.read('config.ini')
 
         app = config['APP']
-        __user = app['user']
-        __pinned = app.getboolean('pinned')
+        # __user = app['user']
+        self.__pinned = app.getboolean('pinned')
 
-        Setting.__enable['word']=config.getboolean('ENABLE','word')
-        Setting.__enable['excel'] = config.getboolean('ENABLE','excel')
-        Setting.__enable['ppt'] = config.getboolean('ENABLE','ppt')
+        logging.debug("Pinned"+str(self.__pinned))
+
+        # Setting.__enable['word'] = config.getboolean('ENABLE', 'word')
+        # Setting.__enable['excel'] = config.getboolean('ENABLE', 'excel')
+        # Setting.__enable['ppt'] = config.getboolean('ENABLE', 'ppt')
         return
 
     def writeSetting(self):
         config = configparser.ConfigParser()
         config['APP'] = {}
         app = config['APP']
-        app['user'] = Setting.__user
+        # app['user'] = Setting.__user
         app['pinned'] = str(Setting.__pinned)
 
-        config['ENABLE']={}
-        ena = config['ENABLE']
-        ena['word'] = str(Setting.__enable.get('word'))
-        ena['excel'] = str(Setting.__enable.get('excel'))
-        ena['ppt'] = str(Setting.__enable.get('ppt'))
+        # config['ENABLE'] = {}
+        # ena = config['ENABLE']
+        # ena['word'] = str(Setting.__enable.get('word'))
+        # ena['excel'] = str(Setting.__enable.get('excel'))
+        # ena['ppt'] = str(Setting.__enable.get('ppt'))
 
-        with open('config.ini','w') as configFile:
+        with open(r'..\config.ini', 'w') as configFile:
             config.write(configFile)
         return

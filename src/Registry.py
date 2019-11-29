@@ -1,59 +1,68 @@
-#Extract pinned file from registry
+# Extract pinned file from registry
 
 from winreg import *
-
 from src.setting import Setting
+import logging
 
+MRUFiles = {}
 
 def fetchRegistry():
-        MRUFiles = {}
-        wordKey = None
+    # if not bool(MRUFiles): not working normally
+    #     return MRUFiles
 
-        reg = ConnectRegistry(None, HKEY_CURRENT_USER)
+    reg = ConnectRegistry(None, HKEY_CURRENT_USER)
+    createUserSet(reg)
+    setting = Setting.getInstance()
 
-        createUserSet(reg)
+    logging.basicConfig(filename='example.log', level=logging.DEBUG)
 
-        setting = Setting()
+    for app in setting.userDict.keys():
+        appName = ""
+        if (app == "w_user"):
+            appName = "Word"
+        elif (app == "e_user"):
+            appName = "Excel"
+        elif (app == "p_user"):
+            appName = "PowerPoint"
+        userSet = setting.userDict.get(app)
+        for user in userSet:
+            key = OpenKeyEx(reg,
+                            "Software\\Microsoft\\Office\\16.0\\" + appName + "\\User MRU\\" + user + "\\File MRU")
+            num = QueryInfoKey(key)[1] #the number of values that this key has
+            #logging.debug(num)
+            for i in range(num):
+                value = EnumValue(key,i)
+                #logging.debug(value)
+                logging.debug(setting.getPinned())
+                if setting.getPinned() and isPinned(value) or not setting.getPinned():
+                    fileInfo = extractInfo(value)
+                    MRUFiles[fileInfo[0]] = fileInfo[1]
+    #logging.debug(MRUFiles)
+    return MRUFiles
 
-        #TODO bug when the user has no folder throws an error
-        wordKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Word\User MRU\\"+ setting.getUser() + "\File MRU")
-        excelKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\Excel\User MRU\\"+ setting.getUser() + "\File MRU")
-        pptKey = OpenKeyEx(reg,r"Software\Microsoft\Office\16.0\PowerPoint\User MRU\\"+ setting.getUser() + "\File MRU")
-
-        Keys = [wordKey,excelKey,pptKey]
-
-
-        global_file_count = 0
-        for key in Keys:
-            count = 0
-            while True:
-                try:
-                    value = EnumValue(key,count)
-                    if True: #TODO
-                        fileInfo = extractInfo(value)
-                        MRUFiles[fileInfo[0]] = fileInfo[1]
-                    global_file_count = global_file_count+1
-                    count = count+1
-                except OSError:  # EOF
-                    break
-        return MRUFiles
 
 def createUserSet(reg):
     w_uKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\Word\User MRU")
     e_uKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\Excel\User MRU")
     p_uKey = OpenKeyEx(reg, r"Software\Microsoft\Office\16.0\PowerPoint\User MRU")
-    uKeys = [w_uKey,e_uKey,p_uKey]
+    uKeys = [w_uKey, e_uKey, p_uKey]
 
     for uKey in uKeys:
         num = QueryInfoKey(uKey)[0]
         for i in range(num):
-            Setting.userSet.add(EnumKey(uKey, i))
+            if uKey == w_uKey:
+                Setting.userDict.get("w_user").add(EnumKey(uKey, i))
+            elif uKey == e_uKey:
+                Setting.userDict.get("e_user").add(EnumKey(uKey, i))
+            elif uKey == p_uKey:
+                Setting.userDict.get("p_user").add(EnumKey(uKey, i))
+
 
 def extractInfo(value):
     posOfAsterisk = value[1].find("*")
-    filepath = value[1][posOfAsterisk+1:]
+    filepath = value[1][posOfAsterisk + 1:]
     posOfSlash = filepath.rfind('\\')
-    fileName = filepath[posOfSlash+1:]
+    fileName = filepath[posOfSlash + 1:]
     return fileName, filepath
 
 def isPinned(value):

@@ -51,19 +51,21 @@ class Main(Wox):
             "IcoPath": "res//Icon.png"
         })
         returnResults.append({
-            "Title": "Setting",
-            "SubTitle": "Open setting file",
+            "Title": "Pinned file only",
+            "SubTitle": str(Setting.getInstance().getPinned()),
             "IcoPath": "res//Icon.png",
             "JsonRPCAction": {
-                "method": "openSetting",
+                "method": "pinned",
                 "parameters": [],
                 "dontHideAfterAction": False
             }
         })
         return returnResults
 
-    def openSetting(self):
-        os.startfile(r"config.ini")
+    def pinned(self):
+        Setting.getInstance().setPinned()
+        WoxAPI.show_msg("Searching only pinned file is set to "+str(Setting.getInstance().getPinned()),sub_title="")
+        return
 
 # Necessary code
 if __name__ == "__main__":

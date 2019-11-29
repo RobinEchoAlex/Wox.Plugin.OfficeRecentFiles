@@ -47,8 +47,10 @@ class Setting:
     #         raise Exception("Requested app is not existed")
     #     return Setting.__enable[app]
 
-    def setPinned(self, app):
-        Setting.__pinned = not Setting.__pinned
+    def setPinned(self):
+        self.__pinned = not self.__pinned
+        logging.debug("Pinned in set "+str(self.__pinned))
+        self.writeSetting()
         return
 
     def getPinned(self):
@@ -63,7 +65,7 @@ class Setting:
         # __user = app['user']
         self.__pinned = app.getboolean('pinned')
 
-        logging.debug("Pinned"+str(self.__pinned))
+        logging.debug("Pinned in read "+str(self.__pinned))
 
         # Setting.__enable['word'] = config.getboolean('ENABLE', 'word')
         # Setting.__enable['excel'] = config.getboolean('ENABLE', 'excel')
@@ -75,7 +77,9 @@ class Setting:
         config['APP'] = {}
         app = config['APP']
         # app['user'] = Setting.__user
-        app['pinned'] = str(Setting.__pinned)
+        app['pinned'] = str(self.__pinned)
+
+        logging.debug("Pinned in write "+str(self.__pinned))
 
         # config['ENABLE'] = {}
         # ena = config['ENABLE']
@@ -83,6 +87,6 @@ class Setting:
         # ena['excel'] = str(Setting.__enable.get('excel'))
         # ena['ppt'] = str(Setting.__enable.get('ppt'))
 
-        with open(r'..\config.ini', 'w') as configFile:
+        with open(r'config.ini', 'w') as configFile:
             config.write(configFile)
         return

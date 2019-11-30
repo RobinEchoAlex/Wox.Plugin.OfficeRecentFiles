@@ -1,5 +1,5 @@
 # Wox.Plugin.OfficeRecentFiles
-A Wox plugin that displays most recent opened files in Microsoft Office.
+A [Wox](https://github.com/Wox-launcher/Wox) plugin that displays most recent opened files in Microsoft Office.
 
 # Features 
 It can display most recent opened files/pinned files in Office 2016/2019.

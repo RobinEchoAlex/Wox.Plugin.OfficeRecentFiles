@@ -8,7 +8,6 @@ from src import Registry, officeFile
 from src.setting import Setting
 
 
-# TODO Lowercase
 class Main(Wox):
     MRUFiles = {}
     logging.basicConfig(filename='example.log', level=logging.DEBUG)
@@ -40,8 +39,10 @@ class Main(Wox):
         return returnResults
 
     def openFile(self, filePath):
+        if not os.path.exists(filePath):
+            WoxAPI.show_msg(title="The file is no longer exist",sub_title=filePath)
+            return
         os.startfile(filePath)
-        # TODO how about a file is not longer existed
 
     def showSetting(self):
         returnResults = []
